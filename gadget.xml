@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<gadget>
+  <name>Process and Data Automation</name>
+  <namespace>microsoft.windows</namespace>
+  <version>1.0.0.0</version>
+  <author name="Process and Data Automation">
+      <logo src="images/PDA.jpg" height="48" width="48"/>
+  </author>
+  <copyright>© 2016</copyright>
+  <description>View Data on GE and AB skids</description>
+  <icons>
+    <icon height="48" width="48" src="images/PDA.jpg"/>
+  </icons>
+  <hosts>
+    <host name="sidebar">
+      <base type="HTML" apiVersion="1.0.0" src="GEData.html"/>
+      <permissions>Full</permissions>
+      <platform minPlatformVersion="1.0"/>
+      <defaultImage src="images/gmail.png" />
+    </host>
+  </hosts>
+</gadget>

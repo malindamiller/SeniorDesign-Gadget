@@ -1,0 +1,249 @@
+
+<html>
+<head>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+  <meta http-equiv="MSThemeCompatible" content="yes" />
+  <meta http-equiv="Content-Type" content="text/html; charset=Unicode" />
+  <title>GMail Reader Settings</title>
+  <script src="js/settings.js" type="text/javascript" language="javascript"></script>
+  <link href="css/settings.css" rel="stylesheet" type="text/css" />
+  <script>
+  // function pdate() {
+  //   myVar = setTimeout(getData, 3000);
+  // }
+   function getData(){
+     var start = getStartDate();
+     var end =getEndDate();
+
+    var url = "http://localhost:59879/Reports/GERecentDataPoints?StartDateStr="+start +"&EndDateStr="+end
+    var xhr2 = new XMLHttpRequest();
+    xhr2.open("GET", url, true);
+    xhr2.onreadystatechange = function ()
+    {
+      // readyState 4 = complete, status 200 = HTTP OK
+      if (xhr2.readyState == 4 && xhr2.status == 200)
+      {
+        //accounts for no interent connection
+        if(xhr2.responseText!=""){
+            //returned if there was connection to the database but no value returned (machine is off)
+            if(xhr2.responseText!= "off"){
+            var geData = jQuery.parseJSON(xhr2.responseText);
+            delete geData.DateCollected;
+            delete geData.Id;
+            createTable (geData)
+
+          }
+          else {
+            document.getElementById("img").src = img.src.replace("images/ledGreen.png", "images/ledRed.png");
+          }
+        }
+      }
+    }
+    xhr2.send();
+   }
+
+   function getStartDate(){
+     var date = new Date();
+     var day = date.getDate();
+     if(day<10){
+       day = "0"+day;
+     }       // yields day
+     var month = date.getMonth()+1;
+     if(month<10){
+       month = "0"+month;
+     }
+     var year = date.getFullYear();  // yields year
+     var hour = date.getHours();
+     if(hour<10){
+       hour = "0"+hour;
+     }    // yields hours
+     var minute = date.getMinutes();
+     if(minute<10){
+       minute = "0"+minute;
+     } // yields minutes
+     var second = date.getSeconds(); // yields seconds
+     if(second<10){
+       second = "0"+second;
+     }
+       if(minute == "00"){
+         minute = 58;
+         hour = hour -1
+       }
+
+       else {
+         minute = minute -2
+      }
+       if(minute<10){
+         minute = "0"+minute;
+       }
+      // After this construct a string with the above results as below
+     return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + '00';
+    //  console.log(start);
+
+   }
+
+   function getEndDate(){
+     var date = new Date();
+     var day = date.getDate();
+     if(day<10){
+       day = "0"+day;
+     }       // yields day
+     var month = date.getMonth()+1;
+     if(month<10){
+       month = "0"+month;
+     }
+     var year = date.getFullYear();  // yields year
+     var hour = date.getHours();
+     if(hour<10){
+       hour = "0"+hour;
+     }    // yields hours
+     var minute = date.getMinutes();
+     if(minute<10){
+       minute = "0"+minute;
+     } // yields minutes
+     var second = date.getSeconds(); // yields seconds
+     if(second<10){
+       second = "0"+second;
+     }
+     // After this construct a string with the above results as below
+     return day + "/" + month + "/" + year + " " + hour + ':' + minute + ':' + '00';
+
+   }
+   function createTable(geData){
+     var table = document.getElementById("table");
+     var row = table.insertRow(0);
+     var cell1 = row.insertCell(0);
+     var cell2 = row.insertCell(1);
+
+// Add some text to the new cells:
+     cell1.innerHTML = "Flow 1: ";
+    //  cell2.innerHTML = "NEW CELL2";
+
+     var row2 = table.insertRow(1);
+     var cell3 = row2.insertCell(0);
+     var cell4 = row2.insertCell(1);
+
+// Add some text to the new cells:
+     cell3.innerHTML = "Flow2:  ";
+    //  cell4.innerHTML = "NEW CELL4";
+
+     var row3 = table.insertRow(2);
+     var cell5 = row3.insertCell(0);
+     var cell6 = row3.insertCell(1);
+
+// Add some text to the new cells:
+     cell5.innerHTML = "Flow3 Mod:  ";
+    //  cell6.innerHTML = "NEW CELL4";
+
+     var row4 = table.insertRow(3);
+     var cell7 = row4.insertCell(0);
+     var cell8 = row4.insertCell(1);
+
+// Add some text to the new cells:
+     cell7.innerHTML = "Flow 3 Anlg:  ";
+    //  cell8.innerHTML = "NEW CELL4";
+
+     var row5 = table.insertRow(4);
+     var cell9 = row5.insertCell(0);
+     var cell10 = row5.insertCell(1);
+
+// Add some text to the new cells:
+     cell9.innerHTML = "Run Tank:  ";
+    //  cell10.innerHTML = "NEW CELL4";
+
+     var row6 = table.insertRow(5);
+     var cell11 = row6.insertCell(0);
+     var cell12 = row6.insertCell(1);
+
+// Add some text to the new cells:
+     cell11.innerHTML = "Rsve Tank:  ";
+    //  cell12.innerHTML = "NEW CELL4";
+
+     var row7 = table.insertRow(6);
+     var cell13 = row7.insertCell(0);
+     var cell14 = row7.insertCell(1);
+
+// Add some text to the new cells:
+     cell13.innerHTML = "Pressure:  ";
+    //  cell14.innerHTML = "NEW CELL4";
+
+     var row8 = table.insertRow(7);
+     var cell15 = row8.insertCell(0);
+     var cell16 = row8.insertCell(1);
+
+// Add some text to the new cells:
+     cell15.innerHTML = "Speed:  ";
+     cell2.innerHTML = " " + Math.round(geData.Fit1FlowRate * 100) / 100 + " GPM"
+     cell4.innerHTML =  " " + Math.round(geData.Fit2FlowRate * 100) / 100 + " GPM"
+     cell6.innerHTML = " " +  Math.round(geData.Fit3FlowRateModbus * 100) / 100 + " GPM"
+     cell8.innerHTML = " " +  Math.round(geData.Fit3FlowRateAnalog * 100) / 100 + " GPM"
+     cell10.innerHTML = " " +  Math.round(geData.RunTankGallons * 100) / 100 + " GAL"
+     cell12.innerHTML = " " +  Math.round(geData.ReserveTankGallons * 100) / 100  + " GAL"
+     cell14.innerHTML = " " + Math.round(geData.PumpPressure * 100) / 100 + " PSI"
+     cell16.innerHTML = " " + Math.round(geData.PumpSpeed * 100) / 100 +" Hz"
+   }
+   </script>
+</head>
+<style>
+body {
+  width: 175px;
+  height: 265px;
+  }
+   #ge {
+     float: left;
+     /*width:50%;*/
+    width:100%;
+     height: 100%;
+     background-color: #b3b3b3;
+    border-style: solid;
+    border-width:thin;
+   border-color:#0033cc
+   }
+   #geTable {
+     float: right;
+     width:50%;
+     height: 100%;
+     background-color: #d4d4d4;
+   }
+   h3 {
+     text-align: center;
+     color:#000040;
+     padding-top: 5px;
+     padding-bottom: 0px;
+     margin-bottom: 15px;
+     margin-top: 5px;
+   }
+   .ledRed {
+     width: 20px;
+     height: 20px;
+     background: red;
+   }
+   img {
+     width: 100%;
+     margin-bottom: 15px;
+   }
+   .led {
+     padding: 0px;
+     width: 30px;
+   }
+   table {
+     color:#000040;
+     font-size: 13px;
+     padding-top: 20px;
+     font-weight: bold;
+   }
+
+</style>
+</head>
+
+<body onload = "getData()">
+
+  <div id = "ge">
+   <h3>GE Flow Trainer</h3>
+  <center><img id = "img" class = "led" src = "images/ledGreen.png"></img></center>
+  <center><table id = "table">
+  </table></center>
+  </div>
+</body>
+</html>

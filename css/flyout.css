@@ -1,0 +1,49 @@
+body
+{
+	width: 400px; 
+	height: 260px;
+	padding: 0px; 
+	margin: 30px;
+	
+}
+
+#container
+{
+	width: 100%;
+	height: 200px;
+	padding: 3px; 
+	margin: 0px; 
+	overflow-x: hidden; 
+	overflow-y: auto;
+	background-color: white;
+}
+
+.mailHolder
+{
+	width: 100%;
+	padding: 3px;
+	margin: 3px;
+	background-color: #f0f0ef;
+	border: #cacaca 1px solid;
+}
+.mailHeader
+{
+	width: 100%;
+	color: #3366cc;
+	font-weight: bold;
+	font-size: 10pt;
+	font-family: Arial;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+.mailBody
+{
+	display: none;
+	width: 100%;
+	border: #cacaca 1px dashed;
+	background-color: white;
+	margin: 5px 0px 0px 0px;
+	padding: 5px;
+}
